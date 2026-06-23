@@ -1,0 +1,39 @@
+name: Update BibTeX mirror
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Never run two mirror updates at once; don't cancel an in-flight one.
+concurrency:
+  group: mirror
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # Bring the existing mirror branch into a local ref so the script appends to
+      # it (keeping history) instead of creating a fresh orphan. Ignored on the
+      # very first run when the branch does not exist yet.
+      - name: Fetch existing mirror branch
+        run: git fetch origin mirror:mirror || echo "no mirror branch yet"
+
+      - name: Configure git identity
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Update mirror
+        run: sh scripts/mirror-bib.sh
+
+      - name: Push mirror branch
+        run: git push origin mirror

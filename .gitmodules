@@ -1,0 +1,12 @@
+[submodule "rvclayton-bibtex"]
+	path = rvclayton-bibtex
+	url = https://github.com/rvclayton/bibtex.git
+	shallow = true
+[submodule "latex-lsp-tree-sitter-bibtex"]
+	path = latex-lsp-tree-sitter-bibtex
+	url = https://github.com/latex-lsp/tree-sitter-bibtex.git
+	shallow = true
+[submodule "jabref-jabref"]
+	path = jabref-jabref
+	url = https://github.com/jabref/jabref.git
+	shallow = true
